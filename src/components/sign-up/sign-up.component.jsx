@@ -58,7 +58,11 @@ class SignUp extends Component {
       <div className="sign-up">
         <h2 className="title">I do not have an account</h2>
         <span>Sign up with your email and password</span>
-        <form onSubmit={this.handleSubmit} className="sign-up-form">
+        <form
+          autoComplete="on"
+          onSubmit={this.handleSubmit}
+          className="sign-up-form"
+        >
           <FormInput
             type="text"
             name="displayName"
@@ -82,6 +86,7 @@ class SignUp extends Component {
             onChange={this.handleChange}
             label="Password"
             required
+            autoComplete="on"
           />
           <FormInput
             type="password"
@@ -90,6 +95,7 @@ class SignUp extends Component {
             onChange={this.handleChange}
             label="Confirm Password"
             required
+            autoComplete="on"
           />
           <div className="buttons">
             <CustomButton type="submit">Sign Up</CustomButton>
