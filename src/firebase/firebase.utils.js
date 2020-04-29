@@ -47,4 +47,47 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 };
 
+// use this to programmatically add collections and documents to firestore project
+// e.g. from a js object like with shop.data.js
+
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  const collectionRef = firestore.collection(collectionKey);
+
+  // use firestore.batch to set multiple documents to a collection in one go
+  const batch = firestore.batch();
+  objectsToAdd.forEach((object) => {
+    const newDocRef = collectionRef.doc();
+    batch.set(newDocRef, object);
+  });
+
+  return await batch.commit();
+};
+
+// using this to convert firestore data to format we can consume
+// i.e. data normalization
+export const convertCollectionsSnapshotToMap = (collectionsSnapshot) => {
+  // console.log(collectionsSnapshot);
+  const transformedCollections = collectionsSnapshot.docs.map((doc) => {
+    const { title, items } = doc.data();
+
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items,
+    };
+  });
+
+  // console.log(transformedCollections);
+  return transformedCollections.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()] = collection;
+    // console.log(accumulator);
+    return accumulator;
+  }, {});
+  // i.e. return 1 object with collections keys like: {jackets:{...}, mens:{...}}
+};
+
 export default firebase;
