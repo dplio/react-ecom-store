@@ -27,16 +27,34 @@ class ShopPage extends Component {
     const { dispatch } = this.props;
     const collectionRef = firestore.collection("collections");
 
-    this.unsubscribeFromSnapshot = collectionRef.onSnapshot(
-      async (snapshot) => {
-        const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-        // console.log(typeof conv, conv);
-        // convertCollectionsSnapshotToMap(snapshot);
-        dispatch(updateCollections(collectionsMap));
-        this.setState({ loading: false });
-      }
-    );
+    // fetch pattern, ridiculously nested!!
+    // fetch(
+    //   "https://firestore.googleapis.com/v1beta1/projects/react-ecom-store-db/databases/(default)/documents/collections"
+    // )
+    //   .then((response) => response.json())
+    //   .then((collections) => console.log(collections));
+
+    // promise pattern, caveat no live update, only fires once on componentDidMount
+    // so we'll move it into an asynchronous redux action
+    collectionRef.get().then((snapshot) => {
+      const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+      dispatch(updateCollections(collectionsMap));
+      this.setState({ loading: false });
+    });
+
+    // observer observable pattern with live update:
+    // this.unsubscribeFromSnapshot = collectionRef.onSnapshot(
+    //   async (snapshot) => {
+    //     const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+    //     dispatch(updateCollections(collectionsMap));
+    //     this.setState({ loading: false });
+    //   }
+    // );
   }
+
+  // componentWillUnmount() {
+  //   this.unsubscribeFromSnapshot();
+  // }
 
   render() {
     const { match } = this.props;
