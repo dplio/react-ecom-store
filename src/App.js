@@ -9,9 +9,15 @@ import ShopPage from "./pages/shop/shop.component";
 import CheckoutPage from "./pages/checkout/checkout.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 import { selectCurrentUser } from "./redux/user/user.selector";
+import { checkUserSession } from "./redux/user/user.actions";
 // import { selectCollectionsForPreview } from "./redux/shop/shop.selectors";
 
 class App extends Component {
+  componentDidMount() {
+    const { checkUserSession } = this.props;
+    checkUserSession();
+  }
+
   render() {
     const { currentUser } = this.props;
     return (
@@ -39,4 +45,8 @@ const mapStateToProps = createStructuredSelector({
   // collectionsArray: selectCollectionsForPreview,
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => ({
+  checkUserSession: () => dispatch(checkUserSession()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

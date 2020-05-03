@@ -1,4 +1,4 @@
-import { takeLatest, call, put } from "redux-saga/effects";
+import { takeLatest, call, put, all } from "redux-saga/effects";
 // takeEvery listens for every matching action dispatched in our component
 // takeLatest cancels all previous action call, running only the latest
 // call passes function calls to saga middleware
@@ -40,4 +40,8 @@ export function* fetchCollectionsStart() {
     shopActionTypes.FETCH_COLLECTIONS_START,
     fetchCollectionsAsync
   );
+}
+
+export function* shopSagas() {
+  yield all([call(fetchCollectionsStart)]);
 }
