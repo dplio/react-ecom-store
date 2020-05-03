@@ -19,28 +19,6 @@ const SignUp = ({ signUpStart }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     signUpStart(userCredentials);
-    // if (password !== confirmPassword) {
-    //   alert("passwords don't match");
-    //   return;
-    // }
-
-    // try {
-    //   const { user } = await auth.createUserWithEmailAndPassword(
-    //     email,
-    //     password
-    //   );
-
-    //   await createUserProfileDocument(user, { displayName });
-
-    //   setUserCredentials({
-    //     displayName: "",
-    //     email: "",
-    //     password: "",
-    //     confirmPassword: "",
-    //   });
-    // } catch (error) {
-    //   console.error(error);
-    // }
   };
 
   const handleChange = (e) => {

@@ -9,14 +9,13 @@ import {
 import "./sign-in.styles.scss";
 
 // HOOKS!
-const SignIn = (props) => {
+const SignIn = ({ googleSignInStart, emailSignInStart }) => {
   const [userCredentials, setUserCredentials] = useState({
     email: "",
     password: "",
   });
 
   const { email, password } = userCredentials;
-  const { googleSignInStart, emailSignInStart } = props;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
